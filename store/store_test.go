@@ -1,25 +1,16 @@
 package store
 
 import (
-	"os"
+	"judaro13/miaguila/storeresultsservice/testshelper"
 	"testing"
 
 	"github.com/judaro13/masharedmodels/models"
 
 	"github.com/stretchr/testify/assert"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
-// PrepareTestDB prepare test DB according to txdb name
-func PrepareTestDB() (*gorm.DB, error) {
-	db, err := gorm.Open(postgres.Open(os.Getenv("DATABASE_URL")), &gorm.Config{})
-	Automigrations(db)
-	return db, err
-}
-
 func TestUpdateStatus(t *testing.T) {
-	db, err := PrepareTestDB()
+	db, err := testshelper.PrepareTestDB()
 	assert.NoError(t, err)
 	tx := db.Begin()
 
@@ -36,7 +27,7 @@ func TestUpdateStatus(t *testing.T) {
 }
 
 func TestSaveUKAPIResponse(t *testing.T) {
-	db, err := PrepareTestDB()
+	db, err := testshelper.PrepareTestDB()
 	assert.NoError(t, err)
 	tx := db.Begin()
 
