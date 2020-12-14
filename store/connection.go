@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/judaro13/masharedmodels/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -27,6 +28,6 @@ func ConnectToDB() *gorm.DB {
 }
 
 func automigrations(db *gorm.DB) {
-	db.AutoMigrate(&GeoCoordinate{})
-	db.AutoMigrate(&CSVUpload{})
+	db.AutoMigrate(&models.GeoCoordinate{})
+	db.AutoMigrate(&models.CSVUpload{})
 }

@@ -1,18 +1,18 @@
 package store
 
 import (
-	"judaro13/miaguila/storeresultsservice/models"
-	"judaro13/miaguila/storeresultsservice/utils"
+	"github.com/judaro13/masharedmodels/models"
+	"github.com/judaro13/masharedmodels/utils"
 
 	"gorm.io/gorm"
 )
 
 // SaveUKAPIResponse save data from UKAPI
 func SaveUKAPIResponse(db *gorm.DB, data models.UKAPIPOSTResult, reference string) error {
-	coordinates := []GeoCoordinate{}
+	coordinates := []models.GeoCoordinate{}
 	for _, results := range data.Result {
 		for _, value := range results.Result {
-			coordinates = append(coordinates, GeoCoordinate{Postcode: value.Postcode,
+			coordinates = append(coordinates, models.GeoCoordinate{Postcode: value.Postcode,
 				Lat: value.Latitude, Lon: value.Longitude})
 		}
 	}
@@ -46,7 +46,7 @@ func SaveUKAPIResponse(db *gorm.DB, data models.UKAPIPOSTResult, reference strin
 }
 
 func updateStatus(db *gorm.DB, reference string) error {
-	progress := CSVUpload{}
+	progress := models.CSVUpload{}
 	db.Where("reference = ?", reference).First(&progress)
 	progress.Counts++
 	if progress.Counts >= progress.Bulks {
