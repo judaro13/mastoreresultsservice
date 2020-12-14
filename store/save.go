@@ -30,9 +30,7 @@ func SaveUKAPIResponse(db *gorm.DB, data models.UKAPIPOSTResult, reference strin
 
 	result := tx.CreateInBatches(coordinates, 100)
 	if result.Error != nil {
-		tx.Rollback()
 		utils.Error(result.Error)
-		return result.Error
 	}
 
 	err := updateStatus(tx, reference)
@@ -47,7 +45,11 @@ func SaveUKAPIResponse(db *gorm.DB, data models.UKAPIPOSTResult, reference strin
 
 func updateStatus(db *gorm.DB, reference string) error {
 	progress := models.CSVUpload{}
-	db.Where("reference = ?", reference).First(&progress)
+	tx := db.Where("reference = ?", reference).First(&progress)
+	if tx.Error != nil {
+		return tx.Error
+	}
+
 	progress.Counts++
 	if progress.Counts >= progress.Bulks {
 		progress.Status = "done"

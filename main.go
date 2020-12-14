@@ -58,7 +58,7 @@ func main() {
 func validateEnvVars() {
 	vars := []string{"DATABASE_URL", "RABBIT_URL", "RABBIT_STORE_DATA_QUEUE"}
 	for _, val := range vars {
-		if len(val) == 0 {
+		if len(os.Getenv(val)) == 0 {
 			panic(errors.New("not found " + val + " environment variable"))
 		}
 	}

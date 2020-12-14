@@ -23,11 +23,11 @@ func ConnectToDB() *gorm.DB {
 		panic(err)
 	}
 
-	automigrations(db)
+	Automigrations(db)
 	return db
 }
 
-func automigrations(db *gorm.DB) {
+func Automigrations(db *gorm.DB) {
 	db.AutoMigrate(&models.GeoCoordinate{})
 	db.AutoMigrate(&models.CSVUpload{})
 }
